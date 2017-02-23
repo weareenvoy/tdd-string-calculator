@@ -173,3 +173,32 @@ At this point, we don’t actually have all that much to refactor, so there’s 
 
 > If you didn't use the built-in `array_sum()` PHP function, maybe this is a good time to refactor to simplify you code.
 > Remember, readability is an important goal!
+
+#### Test #4 -- Sum String With Many Numbers
+
+Follow along with the code completely by following the commits in `test/4-sum-string-with-many-numbers`.
+
+Ok, so we’ve proven that our unit can handle 0 - 2 numbers. Let’s write up a test that sets up a few cases of indeterminate numbers to see how things work.
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_many_numbers()
+    {
+        $calc = $this->createCalculator();
+        
+        $result1 = $calc->add('1,2,3,4,5'); // 15
+        $result2 = $calc->add('4,9,16,25,36,49,64,81,100'); // 384
+        
+        self::assertSame(15, $result1);
+        self::assertSame(384, $result2);
+    }
+}
+```
+
+If you wrote `StringCalculator::add()` as mentioned in the sidebar above, this test just passes! If not, make that change and everything should pass!

@@ -41,6 +41,20 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function sums_string_with_many_numbers()
+    {
+        $calc = $this->createCalculator();
+
+        $result1 = $calc->add('1,2,3,4,5'); // 15
+        $result2 = $calc->add('4,9,16,25,36,49,64,81,100'); // 384
+
+        self::assertSame(15, $result1);
+        self::assertSame(384, $result2);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator
