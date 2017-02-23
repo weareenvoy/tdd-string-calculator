@@ -12,6 +12,6 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        return (int)$numbers;
+        return array_sum(explode(',', $numbers));
     }
 }

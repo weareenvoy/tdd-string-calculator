@@ -29,6 +29,18 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function sums_string_with_two_numbers()
+    {
+        $calc = $this->createCalculator();
+
+        $result = $calc->add('1,2');
+
+        self::assertSame(3, $result);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator
