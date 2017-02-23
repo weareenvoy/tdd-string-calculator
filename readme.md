@@ -288,3 +288,62 @@ Basically, here we would take the string, do a quick replace, and continue as we
 Let’s run with option 3 for now, and see how it goes. We’ll update `StringCalculator::add()` to do that kind of string replace.
 
 Once that’s done, run the tests again! Passing, and it really didn’t take that much work. Fantastic!
+
+#### Test #6 -- Handle Defined Delimiter
+
+Follow along with the code completely by following the commits in `test/6-handle-defined-delimiter`.
+
+Once again, we don’t have anything to really refactor. That last test was resolved by a quick one-line modification, so we’re sitting pretty. Let’s figure out what the next requirement is.
+
+Now, our `StringCalculator` needs to be able to handle a dynamically defined delimiter. The format for these strings is as follows:
+
+```
+//[delimiter]\n[numbers...]
+```
+
+For example:
+
+```
+//;\n1;2;3,4\n5
+```
+
+... would make `;` a valid delimiter, as well as the previously used `,` and `\n`. That being said, the following:
+
+```
+//;ope\n1;2o3
+```
+
+is **not** a valid string, because delimiters must be a single character, and because we are only supporting a single delimiter with this test.
+
+Let’s write it!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_custom_delimiter()
+     {
+         $calc = $this->createCalculator();
+        
+         $result = $calc->add("//;\n2;4;6,8\n10\n12");
+        
+         self::assertSame(42, $result);
+     }
+}
+```
+
+Looks like that test would cover our whole case here. We’re defining a new delimiter, using said delimiter, and using the previous delimiters as well.
+
+> Note: Be aware that this test does not supersede any of the previous tests! We still have to
+> support the old format without a custom delimiter, which is what the previous tests will be
+> accomplishing for us.
+
+Alright, time to run it and see what happens!
+
+```
+Failed asserting that 32 is identical to 42.
+```
