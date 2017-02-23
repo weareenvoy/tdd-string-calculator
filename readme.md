@@ -118,3 +118,11 @@ Passing!
 > Yeah, so about that important goal this was supposed to meet. You might be wondering what that was.
 > This test made it so that one number does work regardless of what the number is. PHP coerces an 
 > empty string to 0, which means we don’t have to do that much work for this one.
+
+#### Interlude #1 -- Refactoring
+
+This refactoring step will be pretty simple, as there really isn’t too much code just yet. Let’s quickly extract the creation of `StringCalculator` into a method so it can be easily recreated in case our dependencies change.
+
+For more details, read the Bowling Kata Interlude #1. Since you’re now an expert at this kind of refactoring, we’ll skip past the nitty gritty and just make it working. (PhpStorm makes this super easy because the IDE refactors for you, and won’t break your code unless you select incorrectly. Bonus points!)
+
+As long as we’re still green, we’re good! Onto the next test.
