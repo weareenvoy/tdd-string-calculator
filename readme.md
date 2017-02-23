@@ -202,3 +202,89 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
 ```
 
 If you wrote `StringCalculator::add()` as mentioned in the sidebar above, this test just passes! If not, make that change and everything should pass!
+
+#### Test #5 -- Handle Newline and Comma Delimiters
+
+Follow along with the code completely by following the commits in `test/5-handle-newline-and-comma-delimiters`.
+
+The last few tests have been pretty easy to handle, so let’s throw a wrench in everything here. We used a comma previously as a delimiter, and that’s a good starting point. Now we need to add the ability to handle newlines as a delimiter alongside of commas.
+
+What does this mean for potential string values? Here are a list of values that would be considered valid within the new rules (remember, all the previous rules still apply!):
+
+* 1\n2,3
+* 2,4,6\n8\n10\n12
+* 3\n6,9\n12,15\n18
+* 4\n16\n64\n256\n1024
+
+Luckily, our previous test is pretty similar to this setup, so let’s just write the next one!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_comma_and_newline_delimiters()
+    {
+        $calc = $this->createCalculator();
+        
+        $result1 = $calc->add("1\n2,3");
+        $result2 = $calc->add("2,4,6\n8\n10\n12");
+        $result3 = $calc->add("3\n6,9\n12,15\n18");
+        $result4 = $calc->add("4\n16\n64\n256\n1024");
+        
+        self::assertSame(6, $result1);
+        self::assertSame(42, $result2);
+        self::assertSame(63, $result3);
+        self::assertSame(1364, $result4);
+    }
+}
+```
+
+> You may notice that we’re now using " instead of '. By adding \n into the string, we need PHP to interpolate it correctly. ' doesn’t meet those requirements, so we need to switch.
+
+That looks pretty good to me, so let’s run the tests and see what happens!
+
+```
+Failed asserting 4 is identical to 6.
+```
+
+Hmm, that’s slightly different than anticipated... Based on the line where PHPUnit tells us the failure occurred, it’s on this line:
+
+```php
+<?php
+
+self::assertSame(6, $result1);
+```
+
+Huh. Well, let’s take a look and see what’s happening. Remember, PHP grabs the first number it can find in a string and uses that as the value, regardless of the rest of the string (at least in our cases here).
+
+`$result1` is using the test string `"1\n2,3"`. Based on our code for `StringCalculator::add()`, this would split on the comma, giving us two values: `"1\n2"` and `"3"`. When we cast each to integers, we get `1` and `3`. Ok, now it makes sense how we were seeing `4` instead of `6`.
+
+Since we’re solving for one test still, we can look at this a bit more high level than we have with previous tests. We have 4 assertions to make true, so we can skip past the tedious work to get a better implementation more quickly.
+
+We have a few options on how we can do this, so let’s brainstorm quickly and run through them before writing any tests:
+
+* loop through every character, determining if it’s a number, comma, or newline
+*`explode` on a comma as we are, then walk the resulting array with an `explode` on newlines
+* replace all newlines with commas, then explode the string
+
+That’s enough methods for the time being. Time to evaluate each one and see which one we like the best.
+
+##### Looping through every character
+
+Right off the bat, this just sounds like it could be covered by some language constructs or built-in functions. It’s definitely a viable strategy and could be done as a fun exercise. Since we’re using PHP, let’s take advantage of the tools given by the language and try for a different option.
+
+##### Walking an array
+
+This method is pretty good. We know there are only two delimiters allowed, so we could keep pretty efficient for short lists. Since there are only two delimiters, we wouldn’t have a case where a stack overflow could happen. This is definitely an option, but it may not be as readable as we would desire for this kind of thing.
+
+##### Replace newlines with commas
+
+Basically, here we would take the string, do a quick replace, and continue as we have been. This really does sound like a pretty quick and effective way to get this requirement completed.
+
+Let’s run with option 3 for now, and see how it goes. We’ll update `StringCalculator::add()` to do that kind of string replace.
+
+Once that’s done, run the tests again! Passing, and it really didn’t take that much work. Fantastic!

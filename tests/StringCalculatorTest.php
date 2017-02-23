@@ -55,6 +55,24 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function sums_string_with_comma_and_newline_delimiters()
+    {
+        $calc = $this->createCalculator();
+
+        $result1 = $calc->add("1\n2,3");
+        $result2 = $calc->add("2,4,6\n8\n10\n12");
+        $result3 = $calc->add("3\n6,9\n12,15\n18");
+        $result4 = $calc->add("4\n16\n64\n256\n1024");
+
+        self::assertSame(6, $result1);
+        self::assertSame(42, $result2);
+        self::assertSame(63, $result3);
+        self::assertSame(1364, $result4);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator
