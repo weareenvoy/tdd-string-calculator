@@ -160,3 +160,7 @@ Failed asserting that 1 is identical to 3.
 
 > When PHP coerces a string to an int, it finds the first reasonable value. In this case, that value
 > is 1, so it returns 1 instead of throwing some other error. ¯\_(ツ)_/¯
+
+Let’s write some real code to make this work. As we can tell from our test, we’re using `,` as a string delimiter, so maybe the first thing we do here is split our string into an array of numbers which we can sum. PHP has some pretty useful array functions to make this a ridiculously simple test to complete, but feel free to use whatever methodology you’d like.
+
+Passing!
