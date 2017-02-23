@@ -59,3 +59,14 @@ Surprise! Let’s create the class and see what happens next.
 ```
 Error: Call to undefined method StringCalculator::add()
 ```
+
+Add the empty function and re-run!
+
+```
+Failed asserting that null is identical to 0.
+```
+
+> If you did follow the Bowling Kata example first, you will remember that we used `TestCase::assertEquals()`
+> instead of `TestCase::assertSame()`. While things will pan out similarly in this kata, (i.e. we could just
+> use `assertEquals()` and fix the issue after the next test is run) let’s use `assertSame()` and see how it
+> all plays out!
