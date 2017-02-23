@@ -40,9 +40,9 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
     public function sums_an_empty_string()
     {
         $calc = new StringCalculator;
-
+        
         $result = $calc->add('');
-
+        
         self::assertSame(0, $result);
     }
 }
@@ -126,3 +126,37 @@ This refactoring step will be pretty simple, as there really isn’t too much co
 For more details, read the Bowling Kata Interlude #1. Since you’re now an expert at this kind of refactoring, we’ll skip past the nitty gritty and just make it working. (PhpStorm makes this super easy because the IDE refactors for you, and won’t break your code unless you select incorrectly. Bonus points!)
 
 As long as we’re still green, we’re good! Onto the next test.
+
+#### Test #3 -- Sum String With Two Numbers
+
+Follow along with the code completely by following the commits in `test/3-sum-string-with-two-numbers`.
+
+Alright, the real testing starts now. Let’s write up our next test to get two numbers sent into our calculator.
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_two_numbers()
+    {
+        $calc = $this->createCalculator();
+        
+        $result = $calc->add('1,2');
+        
+        self::assertSame(3, $result);
+    }
+}
+```
+
+As expected, this test fails, but maybe not exactly how you’d think...
+
+```
+Failed asserting that 1 is identical to 3.
+```
+
+> When PHP coerces a string to an int, it finds the first reasonable value. In this case, that value
+> is 1, so it returns 1 instead of throwing some other error. ¯\_(ツ)_/¯
