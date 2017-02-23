@@ -53,3 +53,9 @@ If you followed along with the Bowling Kata, you know where this is going. Letâ€
 ```
 Error: Class 'StringCalculator' not found
 ```
+
+Surprise! Letâ€™s create the class and see what happens next.
+
+```
+Error: Call to undefined method StringCalculator::add()
+```
