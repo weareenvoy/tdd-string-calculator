@@ -79,3 +79,42 @@ Success!
 > for this function. That’s the point! We’re only meeting one requirement. There’s no reason to make the code
 > any more verbose than what our requirements explicitly expect. Writing any more code is just asking for
 > unused (and potentially problematic) code.
+
+#### Test #2 -- Sum String With One Number
+
+Follow along with the code completely by following the commits in `test/2-sum-string-with-one-number`.
+
+Ok, this one seems a bit silly at first glance, I know. This test meets an important goal that we couldn’t meet with our first test. This will force us to write some real code. Let’s go!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_one_number()
+    {
+        $calc = new StringCalculator;
+        
+        $result = $calc->add('1');
+        
+        self::assertSame(1, $result);
+    }
+}
+```
+
+That looks pretty satisfactory, so let’s run the tests!
+
+```
+Failed asserting that 0 is identical to 1.
+```
+
+As expected, it fails. Let’s see what we can do to make it work. What if we simply cast our input as an `int` and return it?
+
+Passing!
+
+> Yeah, so about that important goal this was supposed to meet. You might be wondering what that was.
+> This test made it so that one number does work regardless of what the number is. PHP coerces an 
+> empty string to 0, which means we don’t have to do that much work for this one.
