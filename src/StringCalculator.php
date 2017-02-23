@@ -12,6 +12,6 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        return 0;
+        return (int)$numbers;
     }
 }

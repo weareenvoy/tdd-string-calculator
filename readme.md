@@ -110,3 +110,11 @@ That looks pretty satisfactory, so let’s run the tests!
 ```
 Failed asserting that 0 is identical to 1.
 ```
+
+As expected, it fails. Let’s see what we can do to make it work. What if we simply cast our input as an `int` and return it?
+
+Passing!
+
+> Yeah, so about that important goal this was supposed to meet. You might be wondering what that was.
+> This test made it so that one number does work regardless of what the number is. PHP coerces an 
+> empty string to 0, which means we don’t have to do that much work for this one.
