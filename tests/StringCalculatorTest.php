@@ -9,7 +9,7 @@ class StringCalculatorTest extends TestCase
      */
     public function sums_an_empty_string()
     {
-        $calc = new StringCalculator;
+        $calc = $this->createCalculator();
 
         $result = $calc->add('');
 
@@ -21,10 +21,18 @@ class StringCalculatorTest extends TestCase
      */
     public function sums_string_with_one_number()
     {
-        $calc = new StringCalculator;
+        $calc = $this->createCalculator();
 
         $result = $calc->add('1');
 
         self::assertSame(1, $result);
+    }
+
+    /**
+     * @return StringCalculator
+     */
+    private function createCalculator(): StringCalculator
+    {
+        return new StringCalculator;
     }
 }
