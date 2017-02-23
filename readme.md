@@ -121,6 +121,8 @@ Passing!
 
 #### Interlude #1 -- Refactoring
 
+Follow along with the code completely by following the commits in `refactor/part-2`.
+
 This refactoring step will be pretty simple, as there really isn’t too much code just yet. Let’s quickly extract the creation of `StringCalculator` into a method so it can be easily recreated in case our dependencies change.
 
 For more details, read the Bowling Kata Interlude #1. Since you’re now an expert at this kind of refactoring, we’ll skip past the nitty gritty and just make it working. (PhpStorm makes this super easy because the IDE refactors for you, and won’t break your code unless you select incorrectly. Bonus points!)
@@ -164,3 +166,10 @@ Failed asserting that 1 is identical to 3.
 Let’s write some real code to make this work. As we can tell from our test, we’re using `,` as a string delimiter, so maybe the first thing we do here is split our string into an array of numbers which we can sum. PHP has some pretty useful array functions to make this a ridiculously simple test to complete, but feel free to use whatever methodology you’d like.
 
 Passing!
+
+#### Interlude #2 -- Refactoring?
+
+At this point, we don’t actually have all that much to refactor, so there’s no need to do this section.
+
+> If you didn't use the built-in `array_sum()` PHP function, maybe this is a good time to refactor to simplify you code.
+> Remember, readability is an important goal!
