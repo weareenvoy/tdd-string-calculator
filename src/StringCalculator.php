@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * Class StringCalculator
+ */
 class StringCalculator
 {
-    public function add(string $numbers)
+    /**
+     * @param string $numbers
+     *
+     * @return int
+     */
+    public function add(string $numbers): int
     {
-        //
+        return 0;
     }
 }

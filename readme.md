@@ -21,9 +21,9 @@ There isn’t so much of an explanation in this process, mostly because I’m le
 
 We have a class `StringCalculator`, and we’re writing up the tests for the function `StringCalculator::add(string $numbers)`. We’ll get more detailed specs as we go!
 
-#### Test #1 -- Summing a Small String
+#### Test #1 -- Summing an Empty String
 
-Follow along with the code completely by following the commits in `test/1-sum-small-string`.
+Follow along with the code completely by following the commits in `test/1-sum-empty-string`.
 
 Our first task is to prove our method can sum from 0 to 2 numbers in a given string. No numbers means we return 0.
 
@@ -70,3 +70,12 @@ Failed asserting that null is identical to 0.
 > instead of `TestCase::assertSame()`. While things will pan out similarly in this kata, (i.e. we could just
 > use `assertEquals()` and fix the issue after the next test is run) let’s use `assertSame()` and see how it
 > all plays out!
+
+Ok, let’s have `StringCalculator::add()` return 0 and see if we can’t get this test to pass with that.
+
+Success!
+
+> Once again, you’ll notice that we didn’t truly flesh out the functionality that will eventually be expected
+> for this function. That’s the point! We’re only meeting one requirement. There’s no reason to make the code
+> any more verbose than what our requirements explicitly expect. Writing any more code is just asking for
+> unused (and potentially problematic) code.
