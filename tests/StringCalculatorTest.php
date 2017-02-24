@@ -73,6 +73,18 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function sums_string_with_custom_delimiter()
+    {
+        $calc = $this->createCalculator();
+
+        $result = $calc->add("//;\n2;4;6,8\n10\n12");
+
+        self::assertSame(42, $result);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator

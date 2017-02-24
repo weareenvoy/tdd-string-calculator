@@ -288,3 +288,88 @@ Basically, here we would take the string, do a quick replace, and continue as we
 Let’s run with option 3 for now, and see how it goes. We’ll update `StringCalculator::add()` to do that kind of string replace.
 
 Once that’s done, run the tests again! Passing, and it really didn’t take that much work. Fantastic!
+
+#### Test #6 -- Handle Defined Delimiter
+
+Follow along with the code completely by following the commits in `test/6-handle-defined-delimiter`.
+
+Once again, we don’t have anything to really refactor. That last test was resolved by a quick one-line modification, so we’re sitting pretty. Let’s figure out what the next requirement is.
+
+Now, our `StringCalculator` needs to be able to handle a dynamically defined delimiter. The format for these strings is as follows:
+
+```
+//[delimiter]\n[numbers...]
+```
+
+For example:
+
+```
+//;\n1;2;3,4\n5
+```
+
+... would make `;` a valid delimiter, as well as the previously used `,` and `\n`. That being said, the following:
+
+```
+//;ope\n1;2o3
+```
+
+is **not** a valid string, because delimiters must be a single character, and because we are only supporting a single delimiter with this test.
+
+Let’s write it!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function sums_string_with_custom_delimiter()
+     {
+         $calc = $this->createCalculator();
+        
+         $result = $calc->add("//;\n2;4;6,8\n10\n12");
+        
+         self::assertSame(42, $result);
+     }
+}
+```
+
+Looks like that test would cover our whole case here. We’re defining a new delimiter, using said delimiter, and using the previous delimiters as well.
+
+> Note: Be aware that this test does not supersede any of the previous tests! We still have to
+> support the old format without a custom delimiter, which is what the previous tests will be
+> accomplishing for us.
+
+Alright, time to run it and see what happens!
+
+```
+Failed asserting that 32 is identical to 42.
+```
+
+As expected, this test is failing. Looks like we’ll need to do some string parsing to check whether or not we have a new delimiter, and then after that, we can process the rest of the numbers as we did previously.
+
+Here’s the process that makes the most to me:
+
+    check beginning of the line to see if it matches //
+    if so, determine new delimiter and pop off everything before first newline
+    process as before, using new delimiter along with the original two
+
+Simplicity is key here. There’s absolutely an opportunity to use a regular expression here, but a regular expression will compromise readability. That could theoretically be the end result, but let’s stay away from them for the time being.
+
+Let’s rebuild `StringCalculator::add()` to fit these new requirements while not breaking our old tests.
+
+Tests like these sometimes require some minor refactoring while doing some rewriting of the setup. We can get away with changing very little of our current implementation, while adding the new functionality. First, let’s pull out `"\n"` into an array that we’ll send into `str_replace`. Then, let’s use the logic from above to check if there is a new delimiter specified, get the delimiter, and add it onto our newly created array of allowed delimiters.
+
+After doing all of that, run the tests again and you should see it passing!
+
+> This action works really well in PHP because most of the string manipulation functions allow for
+> individual strings or arrays of multiple strings as a pattern or a replacement. Also, by just adding
+> a quick check above our initial action, we’re almost guaranteeing that the previous tests work
+> without a hitch.
+
+> In running through most of these tests (and this one for sure in particular), you may have wondered
+> why there’s no focus on trying to validate the input. Normally, that would be part of the tests we
+> would need to write, for sure, but for the purposes of the kata, we will assume the input being sent
+> is pre-validated.

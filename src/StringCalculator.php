@@ -12,6 +12,11 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        return array_sum(explode(',', str_replace("\n", ',', $numbers)));
+        $delimitersToChange = ["\n"];
+        if (0 === strpos($numbers, '//')) {
+            $delimitersToChange[] = substr($numbers, 2, 1);
+        }
+
+        return array_sum(explode(',', str_replace($delimitersToChange, ',', $numbers)));
     }
 }
