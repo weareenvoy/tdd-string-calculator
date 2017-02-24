@@ -360,4 +360,16 @@ Simplicity is key here. There’s absolutely an opportunity to use a regular exp
 
 Let’s rebuild `StringCalculator::add()` to fit these new requirements while not breaking our old tests.
 
-Tests like these sometimes require some minor refactoring while doing some rewriting of the setup. We can get away with changing very little of our current implementation, while adding the new functionality. First, let’s pull out `"\n"` into an array that we’ll send into `str_replace`.
+Tests like these sometimes require some minor refactoring while doing some rewriting of the setup. We can get away with changing very little of our current implementation, while adding the new functionality. First, let’s pull out `"\n"` into an array that we’ll send into `str_replace`. Then, let’s use the logic from above to check if there is a new delimiter specified, get the delimiter, and add it onto our newly created array of allowed delimiters.
+
+After doing all of that, run the tests again and you should see it passing!
+
+> This action works really well in PHP because most of the string manipulation functions allow for
+> individual strings or arrays of multiple strings as a pattern or a replacement. Also, by just adding
+> a quick check above our initial action, we’re almost guaranteeing that the previous tests work
+> without a hitch.
+
+> In running through most of these tests (and this one for sure in particular), you may have wondered
+> why there’s no focus on trying to validate the input. Normally, that would be part of the tests we
+> would need to write, for sure, but for the purposes of the kata, we will assume the input being sent
+> is pre-validated.
