@@ -347,3 +347,17 @@ Alright, time to run it and see what happens!
 ```
 Failed asserting that 32 is identical to 42.
 ```
+
+As expected, this test is failing. Looks like we’ll need to do some string parsing to check whether or not we have a new delimiter, and then after that, we can process the rest of the numbers as we did previously.
+
+Here’s the process that makes the most to me:
+
+    check beginning of the line to see if it matches //
+    if so, determine new delimiter and pop off everything before first newline
+    process as before, using new delimiter along with the original two
+
+Simplicity is key here. There’s absolutely an opportunity to use a regular expression here, but a regular expression will compromise readability. That could theoretically be the end result, but let’s stay away from them for the time being.
+
+Let’s rebuild `StringCalculator::add()` to fit these new requirements while not breaking our old tests.
+
+Tests like these sometimes require some minor refactoring while doing some rewriting of the setup. We can get away with changing very little of our current implementation, while adding the new functionality. First, let’s pull out `"\n"` into an array that we’ll send into `str_replace`.
