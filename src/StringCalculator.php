@@ -13,7 +13,7 @@ class StringCalculator
     public function add(string $numbers): int
     {
         $delimitersToChange = ["\n"];
-        if (0 === strpos($numbers, '//')) {
+        if ($this->hasExtraDelimiter($numbers)) {
             $delimitersToChange[] = substr($numbers, 2, 1);
             $pieces = explode("\n", $numbers);
             array_shift($pieces);
@@ -21,5 +21,10 @@ class StringCalculator
         }
 
         return array_sum(explode(',', str_replace($delimitersToChange, ',', $numbers)));
+    }
+
+    private function hasExtraDelimiter(string $numbers): bool
+    {
+        return 0 === strpos($numbers, '//');
     }
 }

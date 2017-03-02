@@ -390,3 +390,9 @@ Back to the refactoring step! You may nave noticed in the last test that our imp
 > If you can think of a test for that, submit a PR!
 
 So, let’s fix that to make sure we don’t have any potential issues there. After we run the tests, they still pass!
+
+Next, it’s time to look at how we’re identifying a custom delimiter. It’s a pretty ugly set of code, I think. Can we make it more readable and prettier?
+
+First thing’s first, we’re really doing two completely independent actions here. First, we’re adding a custom delimiter to our delimiter list. Next, we’re removing the delimiter “piece” from the string so that numbers can be parsed correctly. Really, this should be two different actions: `getCustomDelimiter` and `removeDelimiterDeclaration`.
+
+To facilitate a faster refactor, let’s pull out a helper function `hasExtraDelimiter`, so we can avoid code duplication between our two yet-to-be-written functions. Tests still pass here!
