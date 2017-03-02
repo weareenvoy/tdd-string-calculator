@@ -15,6 +15,9 @@ class StringCalculator
         $delimitersToChange = ["\n"];
         if (0 === strpos($numbers, '//')) {
             $delimitersToChange[] = substr($numbers, 2, 1);
+            $pieces = explode("\n", $numbers);
+            array_shift($pieces);
+            $numbers = implode("\n", $pieces);
         }
 
         return array_sum(explode(',', str_replace($delimitersToChange, ',', $numbers)));

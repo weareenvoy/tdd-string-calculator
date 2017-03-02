@@ -121,7 +121,7 @@ Passing!
 
 #### Interlude #1 -- Refactoring
 
-Follow along with the code completely by following the commits in `refactor/part-2`.
+Follow along with the code completely by following the commits in `refactor/part-1`.
 
 This refactoring step will be pretty simple, as there really isn’t too much code just yet. Let’s quickly extract the creation of `StringCalculator` into a method so it can be easily recreated in case our dependencies change.
 
@@ -373,3 +373,20 @@ After doing all of that, run the tests again and you should see it passing!
 > why there’s no focus on trying to validate the input. Normally, that would be part of the tests we
 > would need to write, for sure, but for the purposes of the kata, we will assume the input being sent
 > is pre-validated.
+
+#### Interlude #2 -- Refactoring (for real this time)
+
+Follow along with the code completely by following the commits in `refactor/part-2`.
+
+Back to the refactoring step! You may nave noticed in the last test that our implementation missed a pretty important part of the necessary actions. We’re sending the full string, including new delimiter definition, to the processing code. Since PHP coerces strings without numbers to `0`, we’re getting a passing test. This is not a good thing! It means that there’s a possibility of getting a bad value because of bad input.
+
+> Yes, I know I said about 20 lines ago that we don't care about validating input. This isn’t input
+> validation so much as it’s handling the data properly within our own code. The unfortunate part
+> here is that I can’t come up with a test case that fits our required setup AND doesn’t worry about
+> input validation. This is a case where the language (PHP) introduces a silent issue if you’re going
+> to try and do the same thing in another language. Follow along with me as we do this work anyway,
+> but do keep in mind that this will be code that’s not explicitly covered by a test.
+
+> If you can think of a test for that, submit a PR!
+
+So, let’s fix that to make sure we don’t have any potential issues there. After we run the tests, they still pass!
