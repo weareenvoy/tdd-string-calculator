@@ -400,3 +400,5 @@ To facilitate a faster refactor, let’s pull out a helper function `hasExtraDel
 Let’s put together the `getDelimiters` function now. All this needs to do is get all of the extra delimiters (so far, a newline and whatever singular character is added to the string) and return them. Once that’s good to go, tests are still passing!
 
 Keep in mind that we have yet to actually modify the `add` method in any meaningful capacity. `hasExtraDelimiter` did not change any of the underlying functionality, nor did it move the functionality into a different location. That is the end goal, but for now we’ll avoid pulling out certain pieces of functionality until everything else still works.
+
+Now we can build out `removeDelimiterDeclaration`. Within this implementation I return early, as there is nothing to do if the custom delimiter has not been set. This may turn out to be an unnecessary check by the time the refactoring is completed, so it could be removed. Having it in there gives some potential flexibility for the readability of the primary function. Once it’s implemented, everything is still passing!

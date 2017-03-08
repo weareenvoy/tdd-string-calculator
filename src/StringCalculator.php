@@ -37,4 +37,16 @@ class StringCalculator
 
         return $delimitersToChange;
     }
+
+    private function removeDelimiterDeclaration(string $numbers): string
+    {
+        if ( ! $this->hasExtraDelimiter($numbers)) {
+            return $numbers;
+        }
+
+        $pieces = explode("\n", $numbers);
+        array_shift($pieces);
+
+        return implode("\n", $pieces);
+    }
 }
