@@ -393,6 +393,10 @@ So, let’s fix that to make sure we don’t have any potential issues there. Af
 
 Next, it’s time to look at how we’re identifying a custom delimiter. It’s a pretty ugly set of code, I think. Can we make it more readable and prettier?
 
-First thing’s first, we’re really doing two completely independent actions here. First, we’re adding a custom delimiter to our delimiter list. Next, we’re removing the delimiter “piece” from the string so that numbers can be parsed correctly. Really, this should be two different actions: `getCustomDelimiter` and `removeDelimiterDeclaration`.
+First thing’s first, we’re really doing two completely independent actions here. First, we’re adding a custom delimiter to our delimiter list. Next, we’re removing the delimiter “piece” from the string so that numbers can be parsed correctly. Really, this should be two different actions: `getDelimiters` and `removeDelimiterDeclaration`.
 
 To facilitate a faster refactor, let’s pull out a helper function `hasExtraDelimiter`, so we can avoid code duplication between our two yet-to-be-written functions. Tests still pass here!
+
+Let’s put together the `getDelimiters` function now. All this needs to do is get all of the extra delimiters (so far, a newline and whatever singular character is added to the string) and return them. Once that’s good to go, tests are still passing!
+
+Keep in mind that we have yet to actually modify the `add` method in any meaningful capacity. `hasExtraDelimiter` did not change any of the underlying functionality, nor did it move the functionality into a different location. That is the end goal, but for now we’ll avoid pulling out certain pieces of functionality until everything else still works.

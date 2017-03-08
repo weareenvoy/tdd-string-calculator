@@ -27,4 +27,14 @@ class StringCalculator
     {
         return 0 === strpos($numbers, '//');
     }
+
+    private function getDelimiters(string $numbers): array
+    {
+        $delimitersToChange = ["\n"];
+        if ($this->hasExtraDelimiter($numbers)) {
+            $delimitersToChange[] = substr($numbers, 2, 1);
+        }
+
+        return $delimitersToChange;
+    }
 }
