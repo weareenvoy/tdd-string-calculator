@@ -12,9 +12,9 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        $delimitersToChange = ["\n"];
+        $delimitersToChange = $this->getDelimiters($numbers);
+
         if ($this->hasExtraDelimiter($numbers)) {
-            $delimitersToChange[] = substr($numbers, 2, 1);
             $pieces = explode("\n", $numbers);
             array_shift($pieces);
             $numbers = implode("\n", $pieces);

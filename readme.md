@@ -402,3 +402,7 @@ Let’s put together the `getDelimiters` function now. All this needs to do is g
 Keep in mind that we have yet to actually modify the `add` method in any meaningful capacity. `hasExtraDelimiter` did not change any of the underlying functionality, nor did it move the functionality into a different location. That is the end goal, but for now we’ll avoid pulling out certain pieces of functionality until everything else still works.
 
 Now we can build out `removeDelimiterDeclaration`. Within this implementation I return early, as there is nothing to do if the custom delimiter has not been set. This may turn out to be an unnecessary check by the time the refactoring is completed, so it could be removed. Having it in there gives some potential flexibility for the readability of the primary function. Once it’s implemented, everything is still passing!
+
+Time to rewire everything to use our new functions and make things more readable. This is the bulk of the actual refactor, and we’ll be extra careful to not break certain pieces of the current functionality as we go.
+
+First, let’s integrate the `getDelimiters` function. After a quick review of the current code, it looks like we can simply set `$delimitersToChange` to the result of `getDelimiters`, and remove the functionality inside of the if statement there. Still passes!
