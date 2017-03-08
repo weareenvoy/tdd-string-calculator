@@ -406,3 +406,5 @@ Now we can build out `removeDelimiterDeclaration`. Within this implementation I 
 Time to rewire everything to use our new functions and make things more readable. This is the bulk of the actual refactor, and we’ll be extra careful to not break certain pieces of the current functionality as we go.
 
 First, let’s integrate the `getDelimiters` function. After a quick review of the current code, it looks like we can simply set `$delimitersToChange` to the result of `getDelimiters`, and remove the functionality inside of the if statement there. Still passes!
+
+Next, let’s integrate the `removeDelimiterDeclaration` function. Looks like we can substitute the whole `if` statement in `add` with this function... and it passes!

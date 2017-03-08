@@ -13,12 +13,7 @@ class StringCalculator
     public function add(string $numbers): int
     {
         $delimitersToChange = $this->getDelimiters($numbers);
-
-        if ($this->hasExtraDelimiter($numbers)) {
-            $pieces = explode("\n", $numbers);
-            array_shift($pieces);
-            $numbers = implode("\n", $pieces);
-        }
+        $numbers = $this->removeDelimiterDeclaration($numbers);
 
         return array_sum(explode(',', str_replace($delimitersToChange, ',', $numbers)));
     }
