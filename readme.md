@@ -426,3 +426,5 @@ With this one line we can see some potential options:
 Any of these options are totally viable, and will definitely help on readability. The first option will be (without actually trying it) the most verbose inside of the `add` function. Option 2 really only moves the cruft from one function to another, so that seems more like we’re pretending there is no issue (basically, just as good as not refactoring it at all). Option 3 may be the most readable and require the least brain power to read in the future. Let’s try that one here.
 
 After a deeper look `extractNumbersToArray` can encapsulate the `str_replace` and `explode` actions. And then, once that’s done, `sumValues` may not even be needed, because that would be the crux of the `add` function anyways. Create `extractNumbersToArray` and we can revisit this idea.
+
+Looking at everything as it sits now, I’m comfortable continuing on with the next test once I add some comments and some quick code rearranging. Feel free to do any other refactoring you desire!
