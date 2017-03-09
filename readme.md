@@ -121,7 +121,7 @@ Passing!
 
 #### Interlude #1 -- Refactoring
 
-Follow along with the code completely by following the commits in `refactor/part-2`.
+Follow along with the code completely by following the commits in `refactor/part-1`.
 
 This refactoring step will be pretty simple, as there really isn’t too much code just yet. Let’s quickly extract the creation of `StringCalculator` into a method so it can be easily recreated in case our dependencies change.
 
@@ -373,3 +373,58 @@ After doing all of that, run the tests again and you should see it passing!
 > why there’s no focus on trying to validate the input. Normally, that would be part of the tests we
 > would need to write, for sure, but for the purposes of the kata, we will assume the input being sent
 > is pre-validated.
+
+#### Interlude #2 -- Refactoring (for real this time)
+
+Follow along with the code completely by following the commits in `refactor/part-2`.
+
+Back to the refactoring step! You may nave noticed in the last test that our implementation missed a pretty important part of the necessary actions. We’re sending the full string, including new delimiter definition, to the processing code. Since PHP coerces strings without numbers to `0`, we’re getting a passing test. This is not a good thing! It means that there’s a possibility of getting a bad value because of bad input.
+
+> Yes, I know I said about 20 lines ago that we don't care about validating input. This isn’t input
+> validation so much as it’s handling the data properly within our own code. The unfortunate part
+> here is that I can’t come up with a test case that fits our required setup AND doesn’t worry about
+> input validation. This is a case where the language (PHP) introduces a silent issue if you’re going
+> to try and do the same thing in another language. Follow along with me as we do this work anyway,
+> but do keep in mind that this will be code that’s not explicitly covered by a test.
+
+> If you can think of a test for that, submit a PR!
+
+So, let’s fix that to make sure we don’t have any potential issues there. After we run the tests, they still pass!
+
+Next, it’s time to look at how we’re identifying a custom delimiter. It’s a pretty ugly set of code, I think. Can we make it more readable and prettier?
+
+First thing’s first, we’re really doing two completely independent actions here. First, we’re adding a custom delimiter to our delimiter list. Next, we’re removing the delimiter “piece” from the string so that numbers can be parsed correctly. Really, this should be two different actions: `getDelimiters` and `removeDelimiterDeclaration`.
+
+To facilitate a faster refactor, let’s pull out a helper function `hasExtraDelimiter`, so we can avoid code duplication between our two yet-to-be-written functions. Tests still pass here!
+
+Let’s put together the `getDelimiters` function now. All this needs to do is get all of the extra delimiters (so far, a newline and whatever singular character is added to the string) and return them. Once that’s good to go, tests are still passing!
+
+Keep in mind that we have yet to actually modify the `add` method in any meaningful capacity. `hasExtraDelimiter` did not change any of the underlying functionality, nor did it move the functionality into a different location. That is the end goal, but for now we’ll avoid pulling out certain pieces of functionality until everything else still works.
+
+Now we can build out `removeDelimiterDeclaration`. Within this implementation I return early, as there is nothing to do if the custom delimiter has not been set. This may turn out to be an unnecessary check by the time the refactoring is completed, so it could be removed. Having it in there gives some potential flexibility for the readability of the primary function. Once it’s implemented, everything is still passing!
+
+Time to rewire everything to use our new functions and make things more readable. This is the bulk of the actual refactor, and we’ll be extra careful to not break certain pieces of the current functionality as we go.
+
+First, let’s integrate the `getDelimiters` function. After a quick review of the current code, it looks like we can simply set `$delimitersToChange` to the result of `getDelimiters`, and remove the functionality inside of the if statement there. Still passes!
+
+Next, let’s integrate the `removeDelimiterDeclaration` function. Looks like we can substitute the whole `if` statement in `add` with this function... and it passes!
+
+Things are looking quite clean! As one last thing to do within this refactor, that `return` line in `add` is looking a bit hairy and confusing. Also, we're setting some variables and then using them once. Maybe we can rework things so that it’s a lot easier to identify what’s happening here.
+
+First, let’s inline `$delimitersToChange` and the updated `$numbers` value. Still passing!
+
+Next, we can see that there is a `','` duplicate here, so that can be pulled out into a variable. This is a decent refactor and would certainly work. As a better solution, I think it should be pulled out as a field of `StringCalculator`. Perhaps overkill for this kata, pulling `','` out as a field means we have the option to change this value externally if needed. (The steps to get that flexibility will be left as an extra exercise. Follow the same steps we’ve already done and it will be a piece of cake!) For now I’ll extract it to be a `protected` field. Still passing!
+
+And to look at this really long line of code (or, as it stands with the previous commit, 10 lines). While we will look at this line as a place to potentially practice more refactoring, you can skip to the next test. I don’t think too much will need to change here...
+
+With this one line we can see some potential options:
+
+* One option is to split all 3 actions (`array_sum`, `explode`, `str_replace`) into individual functions and concatenate them, basically the same as what’s happening now.
+* Another option is to put all 3 actions just into another function and make it more readable.
+* A third option is to separate the actions into more semantic actions (perhaps `extractNumbers` and `sumValues`)
+
+Any of these options are totally viable, and will definitely help on readability. The first option will be (without actually trying it) the most verbose inside of the `add` function. Option 2 really only moves the cruft from one function to another, so that seems more like we’re pretending there is no issue (basically, just as good as not refactoring it at all). Option 3 may be the most readable and require the least brain power to read in the future. Let’s try that one here.
+
+After a deeper look `extractNumbersToArray` can encapsulate the `str_replace` and `explode` actions. And then, once that’s done, `sumValues` may not even be needed, because that would be the crux of the `add` function anyways. Create `extractNumbersToArray` and we can revisit this idea.
+
+Looking at everything as it sits now, I’m comfortable continuing on with the next test once I add some comments and some quick code rearranging. Feel free to do any other refactoring you desire!
