@@ -414,3 +414,15 @@ Things are looking quite clean! As one last thing to do within this refactor, th
 First, let’s inline `$delimitersToChange` and the updated `$numbers` value. Still passing!
 
 Next, we can see that there is a `','` duplicate here, so that can be pulled out into a variable. This is a decent refactor and would certainly work. As a better solution, I think it should be pulled out as a field of `StringCalculator`. Perhaps overkill for this kata, pulling `','` out as a field means we have the option to change this value externally if needed. (The steps to get that flexibility will be left as an extra exercise. Follow the same steps we’ve already done and it will be a piece of cake!) For now I’ll extract it to be a `protected` field. Still passing!
+
+And to look at this really long line of code (or, as it stands with the previous commit, 10 lines). While we will look at this line as a place to potentially practice more refactoring, you can skip to the next test. I don’t think too much will need to change here...
+
+With this one line we can see some potential options:
+
+* One option is to split all 3 actions (`array_sum`, `explode`, `str_replace`) into individual functions and concatenate them, basically the same as what’s happening now.
+* Another option is to put all 3 actions just into another function and make it more readable.
+* A third option is to separate the actions into more semantic actions (perhaps `extractNumbers` and `sumValues`)
+
+Any of these options are totally viable, and will definitely help on readability. The first option will be (without actually trying it) the most verbose inside of the `add` function. Option 2 really only moves the cruft from one function to another, so that seems more like we’re pretending there is no issue (basically, just as good as not refactoring it at all). Option 3 may be the most readable and require the least brain power to read in the future. Let’s try that one here.
+
+After a deeper look `extractNumbersToArray` can encapsulate the `str_replace` and `explode` actions. And then, once that’s done, `sumValues` may not even be needed, because that would be the crux of the `add` function anyways. Create `extractNumbersToArray` and we can revisit this idea.

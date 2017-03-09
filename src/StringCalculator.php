@@ -17,16 +17,7 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        return array_sum(
-            explode(
-                $this->defaultDelimiter,
-                str_replace(
-                    $this->getDelimiters($numbers),
-                    $this->defaultDelimiter,
-                    $this->removeDelimiterDeclaration($numbers)
-                )
-            )
-        );
+        return array_sum($this->extractNumbersToArray($numbers));
     }
 
     private function hasExtraDelimiter(string $numbers): bool
@@ -54,5 +45,22 @@ class StringCalculator
         array_shift($pieces);
 
         return implode("\n", $pieces);
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return array
+     */
+    private function extractNumbersToArray(string $numbers): array
+    {
+        return explode(
+            $this->defaultDelimiter,
+            str_replace(
+                $this->getDelimiters($numbers),
+                $this->defaultDelimiter,
+                $this->removeDelimiterDeclaration($numbers)
+            )
+        );
     }
 }
