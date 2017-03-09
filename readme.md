@@ -408,3 +408,7 @@ Time to rewire everything to use our new functions and make things more readable
 First, let’s integrate the `getDelimiters` function. After a quick review of the current code, it looks like we can simply set `$delimitersToChange` to the result of `getDelimiters`, and remove the functionality inside of the if statement there. Still passes!
 
 Next, let’s integrate the `removeDelimiterDeclaration` function. Looks like we can substitute the whole `if` statement in `add` with this function... and it passes!
+
+Things are looking quite clean! As one last thing to do within this refactor, that `return` line in `add` is looking a bit hairy and confusing. Also, we're setting some variables and then using them once. Maybe we can rework things so that it’s a lot easier to identify what’s happening here.
+
+First, let’s inline `$delimitersToChange` and the updated `$numbers` value. Still passing!

@@ -12,10 +12,16 @@ class StringCalculator
      */
     public function add(string $numbers): int
     {
-        $delimitersToChange = $this->getDelimiters($numbers);
-        $numbers = $this->removeDelimiterDeclaration($numbers);
-
-        return array_sum(explode(',', str_replace($delimitersToChange, ',', $numbers)));
+        return array_sum(
+            explode(
+                ',',
+                str_replace(
+                    $this->getDelimiters($numbers),
+                    ',',
+                    $this->removeDelimiterDeclaration($numbers)
+                )
+            )
+        );
     }
 
     private function hasExtraDelimiter(string $numbers): bool
