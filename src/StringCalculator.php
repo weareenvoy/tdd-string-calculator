@@ -6,6 +6,11 @@
 class StringCalculator
 {
     /**
+     * @var string
+     */
+    protected $defaultDelimiter = ',';
+
+    /**
      * @param string $numbers
      *
      * @return int
@@ -14,10 +19,10 @@ class StringCalculator
     {
         return array_sum(
             explode(
-                ',',
+                $this->defaultDelimiter,
                 str_replace(
                     $this->getDelimiters($numbers),
-                    ',',
+                    $this->defaultDelimiter,
                     $this->removeDelimiterDeclaration($numbers)
                 )
             )

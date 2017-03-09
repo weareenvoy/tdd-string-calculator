@@ -412,3 +412,5 @@ Next, let’s integrate the `removeDelimiterDeclaration` function. Looks like we
 Things are looking quite clean! As one last thing to do within this refactor, that `return` line in `add` is looking a bit hairy and confusing. Also, we're setting some variables and then using them once. Maybe we can rework things so that it’s a lot easier to identify what’s happening here.
 
 First, let’s inline `$delimitersToChange` and the updated `$numbers` value. Still passing!
+
+Next, we can see that there is a `','` duplicate here, so that can be pulled out into a variable. This is a decent refactor and would certainly work. As a better solution, I think it should be pulled out as a field of `StringCalculator`. Perhaps overkill for this kata, pulling `','` out as a field means we have the option to change this value externally if needed. (The steps to get that flexibility will be left as an extra exercise. Follow the same steps we’ve already done and it will be a piece of cake!) For now I’ll extract it to be a `protected` field. Still passing!
