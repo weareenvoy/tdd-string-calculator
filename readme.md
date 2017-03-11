@@ -477,3 +477,48 @@ The other option, which we will implement, is to extract the numbers as normal a
 > **one** negative number is found. Therefore, we do not yet need to consider the case of a second negative!
 
 Finish writing out the code to find that negative number and throw the appropriate exception. Run the tests, and they pass!
+
+#### Test 8 -- Handling Negative Numbers, Part 2
+
+Time to write the next test!
+
+> No refactoring stage?! Yep, no refactoring stage. We’re writing another test, but we have yet to finish this
+> requirement. Refactoring right now could cause more issues than necessary (i.e. a refactor done now may only
+> result in us undoing the refactor), so we’ll come back to it later. The refactor step is only necessary if
+> a refactor is needed (unlike the Green stage, which must always be visited; Red can be avoided if a test
+> doubles up on determining that some code works as expected).
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function throws_exception_if_multiple_negative_numbers_present()
+    {
+        $calc = $this->createCalculator();
+        
+        try {
+            $calc->add("1,-2,-3,-4");
+        } catch (\InvalidArgumentException $e) {
+            self::assertSame('Negative numbers not allowed: [-2, -3, -4]', $e->getMessage());
+            
+            return;
+        }
+        
+        self::fail('Negative numbers are not allowed!');
+    }
+}
+```
+
+Run the tests and unsurprisingly there will be a new failure!
+
+As expected the exception error message does not match up with what it needs to be. Only the first negative number is mentioned in the message. Our implementation, however, short-circuits and doesn’t check for any other negatives. Let’s flip through all of the numbers instead of short-circuiting, and we should be able to collect all of them for display.
+
+After a quick update, run the tests, and everything passes!
+
+> Whoa, the descriptions of what changes are being made is happening less and less! Part of this is simply because
+> you’re probably picking up on what needs to happen at this point. That’s possibly an unfair assumption, so be
+> sure to read through the code between commits to see what the differences are!

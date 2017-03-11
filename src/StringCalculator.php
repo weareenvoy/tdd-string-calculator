@@ -18,12 +18,17 @@ class StringCalculator
     public function add(string $numbersString): int
     {
         $numbers = $this->extractNumbersToArray($numbersString);
+        $negatives = [];
 
-        array_walk($numbers, function ($number) {
+        array_walk($numbers, function ($number) use (&$negatives) {
             if (0 > (int)$number) {
-                throw new \InvalidArgumentException('Negative numbers not allowed: [' . $number . ']');
+                $negatives[] = $number;
             }
         });
+
+        if (0 < count($negatives)) {
+            throw new \InvalidArgumentException('Negative numbers not allowed: [' . implode(', ', $negatives) . ']');
+        }
 
         return array_sum($numbers);
     }
