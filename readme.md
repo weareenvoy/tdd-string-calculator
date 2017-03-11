@@ -428,3 +428,38 @@ Any of these options are totally viable, and will definitely help on readability
 After a deeper look `extractNumbersToArray` can encapsulate the `str_replace` and `explode` actions. And then, once that’s done, `sumValues` may not even be needed, because that would be the crux of the `add` function anyways. Create `extractNumbersToArray` and we can revisit this idea.
 
 Looking at everything as it sits now, I’m comfortable continuing on with the next test once I add some comments and some quick code rearranging. Feel free to do any other refactoring you desire!
+
+#### Test #7 -- Handling Negative Numbers
+
+The next requirement on our list is regarding negative numbers, and it adds an extra level of complexity. If a negative number is in the string, we need to throw an exception with the message body including the negative number. If there are multiple negative numbers, all of them need to be on the exception list.
+
+Oh boy! This definitely adds a level of difficulty here. With the current system, a negative number would be used just as is, but now we have to parse for any negative numbers. Let’s write the test.
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function throws_exception_if_negative_number_present()
+    {
+        $calc = $this->createCalculator();
+        
+        try {
+            $calc->add("1\n2,-3");
+        } catch (\InvalidArgumentException $e) {
+            self::assertSame('Negative numbers not allowed: [-3]', $e->getMessage());
+            
+            return;
+        }
+        
+        self::fail('Negative numbers are not allowed!');
+    }
+}
+```
+
+The message coming back from the exception can be of whatever format desired, so feel free to customize that as needed. Just remember that the exception message needs to include the numbers!
+
+Running our test suite comes back with a failure. Surprise!
