@@ -11,13 +11,21 @@ class StringCalculator
     protected $defaultDelimiter = ',';
 
     /**
-     * @param string $numbers
+     * @param string $numbersString
      *
      * @return int
      */
-    public function add(string $numbers): int
+    public function add(string $numbersString): int
     {
-        return array_sum($this->extractNumbersToArray($numbers));
+        $numbers = $this->extractNumbersToArray($numbersString);
+
+        array_walk($numbers, function ($number) {
+            if (0 > (int)$number) {
+                throw new \InvalidArgumentException('Negative numbers not allowed: [' . $number . ']');
+            }
+        });
+
+        return array_sum($numbers);
     }
 
     /**
