@@ -85,6 +85,24 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function throws_exception_if_negative_number_present()
+    {
+        $calc = $this->createCalculator();
+
+        try {
+            $calc->add("1\n2,-3");
+        } catch (\InvalidArgumentException $e) {
+            self::assertSame('Negative numbers not allowed: [-3]', $e->getMessage());
+
+            return;
+        }
+
+        self::fail('Negative numbers are not allowed!');
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator

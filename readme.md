@@ -428,3 +428,52 @@ Any of these options are totally viable, and will definitely help on readability
 After a deeper look `extractNumbersToArray` can encapsulate the `str_replace` and `explode` actions. And then, once that’s done, `sumValues` may not even be needed, because that would be the crux of the `add` function anyways. Create `extractNumbersToArray` and we can revisit this idea.
 
 Looking at everything as it sits now, I’m comfortable continuing on with the next test once I add some comments and some quick code rearranging. Feel free to do any other refactoring you desire!
+
+#### Test #7 -- Handling Negative Numbers
+
+The next requirement on our list is regarding negative numbers, and it adds an extra level of complexity. If a negative number is in the string, we need to throw an exception with the message body including the negative number. If there are multiple negative numbers, all of them need to be on the exception list.
+
+Oh boy! This definitely adds a level of difficulty here. With the current system, a negative number would be used just as is, but now we have to parse for any negative numbers. Let’s write the test.
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function throws_exception_if_negative_number_present()
+    {
+        $calc = $this->createCalculator();
+        
+        try {
+            $calc->add("1\n2,-3");
+        } catch (\InvalidArgumentException $e) {
+            self::assertSame('Negative numbers not allowed: [-3]', $e->getMessage());
+            
+            return;
+        }
+        
+        self::fail('Negative numbers are not allowed!');
+    }
+}
+```
+
+The message coming back from the exception can be of whatever format desired, so feel free to customize that as needed. Just remember that the exception message needs to include the numbers!
+
+Running our test suite comes back with a failure. Surprise!
+
+From here I think we want to look into how the numbers are being parsed to find any negative numbers. If we get a negative number, we throw an exception and we’re done. Otherwise, run as usual.
+
+There are quite a few places where this check can be done, and the best rule of thumb here is to put it as high up in the call chain as possible. It really is a set of functionality that is almost unrelated to anything inside of `StringCalculator`. Why? Well, this is doing some kind of input validation (yes, I know, we weren’t supposed to check that kind of thing...), so we want to pull it out as soon as possible (within reason, I’ll explain).
+
+So, the first option is to, prior to doing ANY work whatsoever, we can use a regular expression to find any `-` signs. From there, we could pull out all of the numbers after the `-`s, and those could go into the exception message. Totally viable. The issues here for me are that regular expressions are difficult and slow. The purpose of a kata is to do it quickly, and remembering the way a regular expression works is the antithesis of a kata.
+
+The other option, which we will implement, is to extract the numbers as normal and check them **before** they get summed and returned. I like this solution because we have to parse the string to find the negative numbers, and we have to parse the string to sum the not negative numbers. Since the parsing needs to happen in either case, let’s just parse it correctly the first time, then check the data for negative numbers. Much easier!
+
+> Remember: Write your code to be the **least** amount of code necessary to pass the test as-is! As much as our
+> requirement is to return all of the negative numbers in the exception message, our test is only checking that
+> **one** negative number is found. Therefore, we do not yet need to consider the case of a second negative!
+
+Finish writing out the code to find that negative number and throw the appropriate exception. Run the tests, and they pass!
