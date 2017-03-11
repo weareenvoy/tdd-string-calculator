@@ -514,3 +514,11 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
 ```
 
 Run the tests and unsurprisingly there will be a new failure!
+
+As expected the exception error message does not match up with what it needs to be. Only the first negative number is mentioned in the message. Our implementation, however, short-circuits and doesn’t check for any other negatives. Let’s flip through all of the numbers instead of short-circuiting, and we should be able to collect all of them for display.
+
+After a quick update, run the tests, and everything passes!
+
+> Whoa, the descriptions of what changes are being made is happening less and less! Part of this is simply because
+> you’re probably picking up on what needs to happen at this point. That’s possibly an unfair assumption, so be
+> sure to read through the code between commits to see what the differences are!
