@@ -526,3 +526,11 @@ After a quick update, run the tests, and everything passes!
 #### Interlude #3 -- Refactoring
 
 We have a great set of functionality here, and we just need to clean up the code a tiny bit! All of the tests look fine, but the code in `StringCalculator::add()` should be reviewed, as it got a bit messy after the last test there. Let’s extract most of that code into `guardNegativeNumbers` for readability. After moving all of that out of `add`, run the tests and everything passes!
+
+#### The End?
+
+Congratulations! At this point we have successfully met every achievement for the easy version of this kata. Pretty awesome!
+
+... Wait, you want this to keep going? I mean, sure, there are a few other requirements we didn’t attempt to implement just yet...
+
+Basically, if you want more of a challenge, we’ll keep going. If you’re comfortable with what we’ve done over the last bunch of commits and branches, check it out and feel free to ignore any other commits.
