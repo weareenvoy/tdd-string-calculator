@@ -522,3 +522,7 @@ After a quick update, run the tests, and everything passes!
 > Whoa, the descriptions of what changes are being made is happening less and less! Part of this is simply because
 > you’re probably picking up on what needs to happen at this point. That’s possibly an unfair assumption, so be
 > sure to read through the code between commits to see what the differences are!
+
+#### Interlude #3 -- Refactoring
+
+We have a great set of functionality here, and we just need to clean up the code a tiny bit! All of the tests look fine, but the code in `StringCalculator::add()` should be reviewed, as it got a bit messy after the last test there. Let’s extract most of that code into `guardNegativeNumbers` for readability. After moving all of that out of `add`, run the tests and everything passes!
