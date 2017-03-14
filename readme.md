@@ -567,3 +567,15 @@ As expected, the first assertion passes and the second one fails. Looks like we 
 After implementing the change (which can be a rather simple addition of `array_filter`), run the tests again.
 
 Wait, they don’t pass? What happened?
+
+What happened here is that we have a previous test that was anticipating that numbers greater than 1000 worked. Uh-oh! Looks like we need to update that test, as it’s no longer working as expected.
+
+The offending line is line 67 in `StringCalculatorTest.php`:
+
+```php
+<?php
+
+$result4 = $calc->add("4\n16\n64\n256\n1024");
+```
+
+Looking at the line (and the assertion 5 lines later), the change that really needs to happen is that the number over 1000 just gets removed and the expected total gets updated appropriately. Do that, the tests pass, and we can move onto the next requirement!
