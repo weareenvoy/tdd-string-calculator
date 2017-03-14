@@ -18,17 +18,7 @@ class StringCalculator
     public function add(string $numbersString): int
     {
         $numbers = $this->extractNumbersToArray($numbersString);
-        $negatives = [];
-
-        array_walk($numbers, function ($number) use (&$negatives) {
-            if (0 > (int)$number) {
-                $negatives[] = $number;
-            }
-        });
-
-        if (0 < count($negatives)) {
-            throw new \InvalidArgumentException('Negative numbers not allowed: [' . implode(', ', $negatives) . ']');
-        }
+        $this->guardNegativeNumbers($numbers);
 
         return array_sum($numbers);
     }
@@ -90,5 +80,25 @@ class StringCalculator
     private function hasExtraDelimiter(string $numbers): bool
     {
         return 0 === strpos($numbers, '//');
+    }
+
+    /**
+     * @param array $numbers
+     *
+     * @throws InvalidArgumentException
+     */
+    private function guardNegativeNumbers(array $numbers)
+    {
+        $negatives = [];
+
+        array_walk($numbers, function ($number) use (&$negatives) {
+            if (0 > (int)$number) {
+                $negatives[] = $number;
+            }
+        });
+
+        if (0 < count($negatives)) {
+            throw new InvalidArgumentException('Negative numbers not allowed: [' . implode(', ', $negatives) . ']');
+        }
     }
 }
