@@ -20,7 +20,9 @@ class StringCalculator
         $numbers = $this->extractNumbersToArray($numbersString);
         $this->guardNegativeNumbers($numbers);
 
-        return array_sum($numbers);
+        return array_sum(array_filter($numbers, function ($number) {
+            return 1000 >= $number;
+        }));
     }
 
     /**

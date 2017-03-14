@@ -561,3 +561,9 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
     }
 }
 ```
+
+As expected, the first assertion passes and the second one fails. Looks like we need to pull out numbers before they get added into the final result. How would we approach this idea?
+
+After implementing the change (which can be a rather simple addition of `array_filter`), run the tests again.
+
+Wait, they don’t pass? What happened?
