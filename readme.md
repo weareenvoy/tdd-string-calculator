@@ -534,3 +534,30 @@ Congratulations! At this point we have successfully met every achievement for th
 ... Wait, you want this to keep going? I mean, sure, there are a few other requirements we didn’t attempt to implement just yet...
 
 Basically, if you want more of a challenge, we’ll keep going. If you’re comfortable with what we’ve done over the last bunch of commits and branches, check it out and feel free to ignore any other commits.
+
+#### Test #9 -- Handling Numbers That Are Too Big
+
+The next requirement is that any numbers larger than 1000 are ignored. To translate, a string of `2,1000` should return `1002`, and a string of `2,1001` should return `2`.
+
+Write up the next test!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function ignores_numbers_larger_than_1000()
+    {
+        $calc = $this->createCalculator();
+        
+        $result1 = $calc->add("2,1000");
+        $result2 = $calc->add("2,1001");
+        
+        self::assertSame(1002, $result1);
+        self::assertSame(2, $result2);
+    }
+}
+```

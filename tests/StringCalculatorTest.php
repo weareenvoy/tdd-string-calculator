@@ -121,6 +121,20 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function ignores_numbers_larger_than_1000()
+    {
+        $calc = $this->createCalculator();
+
+        $result1 = $calc->add("2,1000");
+        $result2 = $calc->add("2,1001");
+
+        self::assertSame(1002, $result1);
+        self::assertSame(2, $result2);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator
