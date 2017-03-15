@@ -64,12 +64,12 @@ class StringCalculatorTest extends TestCase
         $result1 = $calc->add("1\n2,3");
         $result2 = $calc->add("2,4,6\n8\n10\n12");
         $result3 = $calc->add("3\n6,9\n12,15\n18");
-        $result4 = $calc->add("4\n16\n64\n256\n1024");
+        $result4 = $calc->add("4\n16\n64\n256");
 
         self::assertSame(6, $result1);
         self::assertSame(42, $result2);
         self::assertSame(63, $result3);
-        self::assertSame(1364, $result4);
+        self::assertSame(340, $result4);
     }
 
     /**
@@ -118,6 +118,20 @@ class StringCalculatorTest extends TestCase
         }
 
         self::fail('Negative numbers are not allowed!');
+    }
+
+    /**
+     * @test
+     */
+    public function ignores_numbers_larger_than_1000()
+    {
+        $calc = $this->createCalculator();
+
+        $result1 = $calc->add("2,1000");
+        $result2 = $calc->add("2,1001");
+
+        self::assertSame(1002, $result1);
+        self::assertSame(2, $result2);
     }
 
     /**
