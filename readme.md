@@ -579,3 +579,34 @@ $result4 = $calc->add("4\n16\n64\n256\n1024");
 ```
 
 Looking at the line (and the assertion 5 lines later), the change that really needs to happen is that the number over 1000 just gets removed and the expected total gets updated appropriately. Do that, the tests pass, and we can move onto the next requirement!
+
+#### Test #10 -- Multi-character Delimiters
+
+A new requirement has appeared! Now we need to allow a delimiter to be multiple characters long. Here’s what the new format needs to be:
+
+```
+//[delimiter]\n#,#,#
+```
+
+For example we could have `//[***]\n1***2***3***4` be a valid number string, equaling 10.
+
+Test time!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function handles_multi_character_delimiters()
+    {
+        $calc = $this->createCalculator();
+        
+        $result = $calc->add("//[***]\n1***2***3***4");
+        
+        self::assertSame(10, $result);
+    }
+}
+```
