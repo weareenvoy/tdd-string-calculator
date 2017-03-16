@@ -141,9 +141,11 @@ class StringCalculatorTest extends TestCase
     {
         $calc = $this->createCalculator();
 
-        $result = $calc->add("//[***]\n1***2***3***4");
+        $result1 = $calc->add("//[***]\n1***2***3***4");
+        $result2 = $calc->add("//[va\nlid]\n1va\nlid2");
 
-        self::assertSame(10, $result);
+        self::assertSame(10, $result1);
+        self::assertSame(3, $result2);
     }
 
     /**
