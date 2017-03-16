@@ -579,3 +579,51 @@ $result4 = $calc->add("4\n16\n64\n256\n1024");
 ```
 
 Looking at the line (and the assertion 5 lines later), the change that really needs to happen is that the number over 1000 just gets removed and the expected total gets updated appropriately. Do that, the tests pass, and we can move onto the next requirement!
+
+#### Test #10 -- Multi-character Delimiters
+
+A new requirement has appeared! Now we need to allow a delimiter to be multiple characters long. Here’s what the new format needs to be:
+
+```
+//[delimiter]\n#,#,#
+```
+
+For example we could have `//[***]\n1***2***3***4` be a valid number string, equaling 10.
+
+Test time!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function handles_multi_character_delimiters()
+    {
+        $calc = $this->createCalculator();
+        
+        $result = $calc->add("//[***]\n1***2***3***4");
+        
+        self::assertSame(10, $result);
+    }
+}
+```
+
+As expected, the test fails, and due to that PHP quirk mentioned previously, we’re seeing that `1 !== 10`. Based on the requirement, we need to look at how we’re grabbing delimiters. If we see a `[`, we have a multi-character delimiter.
+
+> Caveat: A single character (that isn’t a `[` or a `\n`) may not require the `[]` to be defined as a delimiter!
+> (I.e., make sure the previous tests still pass without changes!) Also, theoretically a delimiter could include
+> a newline in it! `[va\nlid]` could be a delimiter.
+
+With that caveat in mind, we’ll quickly update the test to include another test case, then try and make this change happen. First, we need to look at `StringCalculator::getDelimiters` to update how we’re getting the delimiter. Right now it just assumes that we can pull out a singular character and be done with it. We also need to make a few assumptions here:
+
+* `[` **cannot** be a valid delimiter. It’s “reserved” because it now has special functionality within our expected string input. (No exception needs to be thrown, as we won’t be writing a test for this. Feel free to do it on your own!)
+* `\n` **must** be within `[]`. As it is the only way we can identify that the delimiter list has ended, it cannot be the “solo” character. (This has already been the assumption, so it won’t be an issue for us to implement.)
+
+After creating those assumptions (the requirement is vague enough to allow it), updating `getDelimiters` to correctly grab our multi-character delimiter will be much easier.
+
+The first half of our test passes (yay!), but the second half will fails. Something with our setup isn’t functioning as expected. After some digging we can identify that there are issues around the newline character. Let’s try to sort that one out.
+
+Turns out it doesn’t require much to fix. Sweet!

@@ -135,6 +135,20 @@ class StringCalculatorTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function handles_multi_character_delimiters()
+    {
+        $calc = $this->createCalculator();
+
+        $result1 = $calc->add("//[***]\n1***2***3***4");
+        $result2 = $calc->add("//[va\nlid]\n1va\nlid2");
+
+        self::assertSame(10, $result1);
+        self::assertSame(3, $result2);
+    }
+
+    /**
      * @return StringCalculator
      */
     private function createCalculator(): StringCalculator
