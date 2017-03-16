@@ -623,3 +623,7 @@ With that caveat in mind, we’ll quickly update the test to include another tes
 * `\n` **must** be within `[]`. As it is the only way we can identify that the delimiter list has ended, it cannot be the “solo” character. (This has already been the assumption, so it won’t be an issue for us to implement.)
 
 After creating those assumptions (the requirement is vague enough to allow it), updating `getDelimiters` to correctly grab our multi-character delimiter will be much easier.
+
+The first half of our test passes (yay!), but the second half will fails. Something with our setup isn’t functioning as expected. After some digging we can identify that there are issues around the newline character. Let’s try to sort that one out.
+
+Turns out it doesn’t require much to fix. Sweet!

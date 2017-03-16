@@ -49,7 +49,7 @@ class StringCalculator
      */
     private function getDelimiters(string $numbers): array
     {
-        $delimitersToChange = ["\n"];
+        $delimitersToChange = [];
 
         if ($this->hasExtraDelimiter($numbers)) {
             if (2 === strpos($numbers, '[')) {
@@ -60,6 +60,7 @@ class StringCalculator
                 $delimitersToChange[] = substr($numbers, 2, 1);
             }
         }
+        $delimitersToChange[] = "\n";
 
         return $delimitersToChange;
     }
