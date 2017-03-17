@@ -647,3 +647,5 @@ The whole `if`-`else` statement to determine whether or not we have a multi-char
 These breakouts make the most sense to me within the program context, so let’s start with the first one and go down the list!
 
 The first refactor is pretty easy, so pull it out into a function just like we did previously with `hasExtraDelimiter`, run the test suite, and see everything passing!
+
+Refactor #2 cleans up the multi-character delimiter extraction. With this we can hide the somewhat ugly way we’re getting the delimiter from the regular expression, so that’s definitely a plus. Once again, make the updates, run the tests, and it still passes!
