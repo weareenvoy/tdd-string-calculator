@@ -677,4 +677,6 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
 }
 ```
 
-As expected, the test suite fails.
+As expected, the test suite fails. Quickly perusing the code leads us to the `getDelimiters` function, and to the culprit, `extractMultiCharacterDelimiter`. This function works just fine... for one delimiter. However, it’s ignoring the following delimiters outright. How can we approach this?
+
+Some quite simple changes later, and we have a passing test suite!
