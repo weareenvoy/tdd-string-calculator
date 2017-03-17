@@ -627,3 +627,27 @@ After creating those assumptions (the requirement is vague enough to allow it), 
 The first half of our test passes (yay!), but the second half will fails. Something with our setup isn’t functioning as expected. After some digging we can identify that there are issues around the newline character. Let’s try to sort that one out.
 
 Turns out it doesn’t require much to fix. Sweet!
+
+#### Interlude #4 -- Refactoring
+
+Since we made it to a passing test suite, let’s review our changes to see if there’s a good place to refactor things.
+
+The new code inside of `getDelimiters` is a bit messy, and can probably become a bit more readable. Remember, the implementation can be abstracted behind a function with a succinct but appropriate name. We also have some seemingly magic numbers and strings in the code, so it would be helpful to move those into smaller sections of code, be it fields or otherwise.
+
+> Remember, refactoring only needs to happen if the code is difficult to quickly parse. If it is already easy
+> to read, don’t over-complicate things. The purpose of this example is to present all of the options available.
+> Do what makes sense for the code and the project’s needs.
+
+The whole `if`-`else` statement to determine whether or not we have a multi-character delimiter can be put behind a function, but that then begs the question as to just how much should go into that function. The only result I’m getting is that the whole function would be moved to another function, and that defeats the purpose of having said function. We can look at some smaller refactoring instead. Perhaps we split it into 3 different functions:
+
+1. multi-character check
+2. get the multi-character delimiter
+3. get the single-character delimiter
+
+These breakouts make the most sense to me within the program context, so let’s start with the first one and go down the list!
+
+The first refactor is pretty easy, so pull it out into a function just like we did previously with `hasExtraDelimiter`, run the test suite, and see everything passing!
+
+Refactor #2 cleans up the multi-character delimiter extraction. With this we can hide the somewhat ugly way we’re getting the delimiter from the regular expression, so that’s definitely a plus. Once again, make the updates, run the tests, and it still passes!
+
+To fit within the rest of the function readability, we will pull out the single-character delimiter as well. Do that, run the tests, passing! Let’s move on to the last requirement!

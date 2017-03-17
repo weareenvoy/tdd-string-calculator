@@ -52,12 +52,10 @@ class StringCalculator
         $delimitersToChange = [];
 
         if ($this->hasExtraDelimiter($numbers)) {
-            if (2 === strpos($numbers, '[')) {
-                $matches = [];
-                preg_match(';^\/\/\[([^\]]+)\];', $numbers, $matches);
-                $delimitersToChange[] = $matches[1];
+            if ($this->hasMultiCharacterDelimiter($numbers)) {
+                $delimitersToChange[] = $this->extractMultiCharacterDelimiter($numbers);
             } else {
-                $delimitersToChange[] = substr($numbers, 2, 1);
+                $delimitersToChange[] = $this->extractSingleCharacterDelimiter($numbers);
             }
         }
         $delimitersToChange[] = "\n";
@@ -90,6 +88,39 @@ class StringCalculator
     private function hasExtraDelimiter(string $numbers): bool
     {
         return 0 === strpos($numbers, '//');
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return bool
+     */
+    private function hasMultiCharacterDelimiter(string $numbers): bool
+    {
+        return 2 === strpos($numbers, '[');
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return string
+     */
+    private function extractMultiCharacterDelimiter(string $numbers): string
+    {
+        $matches = [];
+        preg_match(';^\/\/\[([^\]]+)\];', $numbers, $matches);
+
+        return $matches[1];
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return string
+     */
+    private function extractSingleCharacterDelimiter(string $numbers): string
+    {
+        return substr($numbers, 2, 1);
     }
 
     /**
