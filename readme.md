@@ -651,3 +651,30 @@ The first refactor is pretty easy, so pull it out into a function just like we d
 Refactor #2 cleans up the multi-character delimiter extraction. With this we can hide the somewhat ugly way we’re getting the delimiter from the regular expression, so that’s definitely a plus. Once again, make the updates, run the tests, and it still passes!
 
 To fit within the rest of the function readability, we will pull out the single-character delimiter as well. Do that, run the tests, passing! Let’s move on to the last requirement!
+
+#### Test #11 -- Handling Multiple Delimiters
+
+It’s the home stretch! The last requirement (and you probably guessed this) is to allow the string to define multiple delimiters of any length. Comma and newline will still be delimiters, as defined by the previous requirements. Write up the last test!
+
+```php
+<?php
+
+class StringCalculatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @test
+     */
+    public function handles_multiple_delimiters()
+    {
+        $calc = $this->createCalculator();
+        
+        $result1 = $calc->add("//[v][a]\n1v2a3");
+        $result2 = $calc->add("//[va][li][dd]\n2va4li6dd8");
+        
+        self::assertSame(6, $result1);
+        self::assertSame(20, $result2);
+    }
+}
+```
+
+As expected, the test suite fails.
