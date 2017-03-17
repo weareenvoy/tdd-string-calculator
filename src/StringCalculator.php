@@ -52,7 +52,7 @@ class StringCalculator
         $delimitersToChange = [];
 
         if ($this->hasExtraDelimiter($numbers)) {
-            if (2 === strpos($numbers, '[')) {
+            if ($this->hasMultiCharacterDelimiter($numbers)) {
                 $matches = [];
                 preg_match(';^\/\/\[([^\]]+)\];', $numbers, $matches);
                 $delimitersToChange[] = $matches[1];
@@ -90,6 +90,16 @@ class StringCalculator
     private function hasExtraDelimiter(string $numbers): bool
     {
         return 0 === strpos($numbers, '//');
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return bool
+     */
+    private function hasMultiCharacterDelimiter(string $numbers): bool
+    {
+        return 2 === strpos($numbers, '[');
     }
 
     /**
