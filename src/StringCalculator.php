@@ -53,7 +53,7 @@ class StringCalculator
 
         if ($this->hasExtraDelimiter($numbers)) {
             if ($this->hasMultiCharacterDelimiter($numbers)) {
-                $delimitersToChange[] = $this->extractMultiCharacterDelimiter($numbers);
+                $delimitersToChange = $this->extractMultiCharacterDelimiters($numbers);
             } else {
                 $delimitersToChange[] = $this->extractSingleCharacterDelimiter($numbers);
             }
@@ -103,12 +103,12 @@ class StringCalculator
     /**
      * @param string $numbers
      *
-     * @return string
+     * @return array
      */
-    private function extractMultiCharacterDelimiter(string $numbers): string
+    private function extractMultiCharacterDelimiters(string $numbers): array
     {
         $matches = [];
-        preg_match(';^\/\/\[([^\]]+)\];', $numbers, $matches);
+        preg_match_all(';\[([^\]]+)\];', $numbers, $matches);
 
         return $matches[1];
     }
