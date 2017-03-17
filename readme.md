@@ -649,3 +649,5 @@ These breakouts make the most sense to me within the program context, so let’s
 The first refactor is pretty easy, so pull it out into a function just like we did previously with `hasExtraDelimiter`, run the test suite, and see everything passing!
 
 Refactor #2 cleans up the multi-character delimiter extraction. With this we can hide the somewhat ugly way we’re getting the delimiter from the regular expression, so that’s definitely a plus. Once again, make the updates, run the tests, and it still passes!
+
+To fit within the rest of the function readability, we will pull out the single-character delimiter as well. Do that, run the tests, passing! Let’s move on to the last requirement!
