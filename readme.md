@@ -431,6 +431,8 @@ Looking at everything as it sits now, I’m comfortable continuing on with the n
 
 #### Test #7 -- Handling Negative Numbers
 
+Follow along with the code completely by following the commits in `test/7-handle-negative-numbers`.
+
 The next requirement on our list is regarding negative numbers, and it adds an extra level of complexity. If a negative number is in the string, we need to throw an exception with the message body including the negative number. If there are multiple negative numbers, all of them need to be on the exception list.
 
 Oh boy! This definitely adds a level of difficulty here. With the current system, a negative number would be used just as is, but now we have to parse for any negative numbers. Let’s write the test.
@@ -480,6 +482,8 @@ Finish writing out the code to find that negative number and throw the appropria
 
 #### Test 8 -- Handling Negative Numbers, Part 2
 
+Follow along with the code completely by following the commits in `test/8-handle-negative-numbers-pt-2`.
+
 Time to write the next test!
 
 > No refactoring stage?! Yep, no refactoring stage. We’re writing another test, but we have yet to finish this
@@ -525,6 +529,8 @@ After a quick update, run the tests, and everything passes!
 
 #### Interlude #3 -- Refactoring
 
+Follow along with the code completely by following the commits in `refactor/part-3`.
+
 We have a great set of functionality here, and we just need to clean up the code a tiny bit! All of the tests look fine, but the code in `StringCalculator::add()` should be reviewed, as it got a bit messy after the last test there. Let’s extract most of that code into `guardNegativeNumbers` for readability. After moving all of that out of `add`, run the tests and everything passes!
 
 #### The End?
@@ -536,6 +542,8 @@ Congratulations! At this point we have successfully met every achievement for th
 Basically, if you want more of a challenge, we’ll keep going. If you’re comfortable with what we’ve done over the last bunch of commits and branches, check it out and feel free to ignore any other commits.
 
 #### Test #9 -- Handling Numbers That Are Too Big
+
+Follow along with the code completely by following the commits in `test/9-number-size-limit`.
 
 The next requirement is that any numbers larger than 1000 are ignored. To translate, a string of `2,1000` should return `1002`, and a string of `2,1001` should return `2`.
 
@@ -581,6 +589,8 @@ $result4 = $calc->add("4\n16\n64\n256\n1024");
 Looking at the line (and the assertion 5 lines later), the change that really needs to happen is that the number over 1000 just gets removed and the expected total gets updated appropriately. Do that, the tests pass, and we can move onto the next requirement!
 
 #### Test #10 -- Multi-character Delimiters
+
+Follow along with the code completely by following the commits in `test/10-handle-multi-character-delimiters`.
 
 A new requirement has appeared! Now we need to allow a delimiter to be multiple characters long. Here’s what the new format needs to be:
 
@@ -630,6 +640,8 @@ Turns out it doesn’t require much to fix. Sweet!
 
 #### Interlude #4 -- Refactoring
 
+Follow along with the code completely by following the commits in `refactor/part-4`.
+
 Since we made it to a passing test suite, let’s review our changes to see if there’s a good place to refactor things.
 
 The new code inside of `getDelimiters` is a bit messy, and can probably become a bit more readable. Remember, the implementation can be abstracted behind a function with a succinct but appropriate name. We also have some seemingly magic numbers and strings in the code, so it would be helpful to move those into smaller sections of code, be it fields or otherwise.
@@ -653,6 +665,8 @@ Refactor #2 cleans up the multi-character delimiter extraction. With this we can
 To fit within the rest of the function readability, we will pull out the single-character delimiter as well. Do that, run the tests, passing! Let’s move on to the last requirement!
 
 #### Test #11 -- Handling Multiple Delimiters
+
+Follow along with the code completely by following the commits in `test/11-handle-multiple-delimiters`.
 
 It’s the home stretch! The last requirement (and you probably guessed this) is to allow the string to define multiple delimiters of any length. Comma and newline will still be delimiters, as defined by the previous requirements. Write up the last test!
 
@@ -680,3 +694,17 @@ class StringCalculatorTest extends \PHPUnit\Framework\TestCase
 As expected, the test suite fails. Quickly perusing the code leads us to the `getDelimiters` function, and to the culprit, `extractMultiCharacterDelimiter`. This function works just fine... for one delimiter. However, it’s ignoring the following delimiters outright. How can we approach this?
 
 Some quite simple changes later, and we have a passing test suite!
+
+### Conclusion
+
+We made it to the end! 8 or 11 tests later, and we have a working set of unit tests for this function.
+
+#### Extra Challenge?
+
+If you’re up to the task, there’s actually a potential issue with our final solution in how it removes the delimiter piece from the string prior to exploding and summing the values. See if you can find it, and if you can, see if you can write up a test (this one can be considered a regression test) that breaks because of this issue, and then fix it yourself!
+
+### Addendum
+
+#### No Test Refactoring?
+
+You may have noticed throughout this whole example, we never refactored the `add` and `assertSame` calls into a function. This is totally an option, so if you decided to make that move, more power to you! The main reason we didn’t do it within the tutorial is primarily because I didn’t think of it until I started writing this note, but it would have also obfuscated how the `add` function was used. Refactoring out the main piece of testing (in this case, `add`) in a function would detract from the readability of the simple tests. It is generally better to be a bit more verbose in tests, as they will serve as a succinct documentation on how to work with the unit under testing.
